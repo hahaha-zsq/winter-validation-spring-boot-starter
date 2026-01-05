@@ -8,47 +8,34 @@ import java.lang.annotation.*;
 
 /**
  * 动态枚举值校验注解
- * 
- * @author dadandiaoming
+ * 支持从 Bean 中动态获取值，也支持配置固定值
  */
-@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER})
+@Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(validatedBy = DynamicEnumValidator.class)
 public @interface DynamicEnum {
-    
-    /**
-     * 错误消息
-     */
-    String message() default "枚举值校验失败，不在允许的值范围内";
-    
-    /**
-     * 分组
-     */
+
+    String message() default "值不在允许的范围内";
+
     Class<?>[] groups() default {};
-    
-    /**
-     * 负载
-     */
+
     Class<? extends Payload>[] payload() default {};
-    
+
     /**
-     * 字典类型/枚举类型标识
+     * 字典类型标识
+     * 将传递给 DictDataProvider.getDictValues(dictType)
      */
     String dictType();
-    
+
     /**
-     * 固定的枚举值（当没有自定义字典提供者时使用）
+     * 固定的枚举值（作为补充）
+     * 最终允许的值 = 动态获取的值 + fixedValues
      */
-    String[] values() default {};
-    
+    String[] fixedValues() default {};
+
     /**
-     * 是否允许空值
+     * 是否允许为 null
      */
     boolean allowNull() default false;
-    
-    /**
-     * 是否忽略大小写
-     */
-    boolean ignoreCase() default false;
 }
