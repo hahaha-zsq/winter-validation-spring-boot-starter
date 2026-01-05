@@ -1,0 +1,34 @@
+{
+  "properties": [
+    {
+      "name": "winter.validation.enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "是否启用Winter校验功能"
+    },
+    {
+      "name": "winter.validation.spel-enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "是否启用SpEL表达式校验"
+    },
+    {
+      "name": "winter.validation.dynamic-enum-enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "是否启用动态枚举值校验"
+    },
+    {
+      "name": "winter.validation.aop-enabled",
+      "type": "java.lang.Boolean",
+      "defaultValue": true,
+      "description": "是否启用AOP切面支持"
+    },
+    {
+      "name": "winter.validation.verbose",
+      "type": "java.lang.Boolean",
+      "defaultValue": false,
+      "description": "是否打印详细的校验日志"
+    }
+  ]
+}
