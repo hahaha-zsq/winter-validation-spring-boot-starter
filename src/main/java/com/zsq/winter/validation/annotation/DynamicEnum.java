@@ -16,7 +16,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = DynamicEnumValidator.class)
 public @interface DynamicEnum {
 
-    String message() default "值不在允许的范围内";
+    String message() default "Value is not in the allowed range";
 
     Class<?>[] groups() default {};
 

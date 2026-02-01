@@ -19,7 +19,7 @@ import java.lang.annotation.*;
 @Repeatable(SpelValid.List.class)
 public @interface SpelValid {
 
-    String message() default "SpEL表达式校验失败";
+    String message() default "SpEL expression validation failed";
 
     Class<?>[] groups() default {};
 
