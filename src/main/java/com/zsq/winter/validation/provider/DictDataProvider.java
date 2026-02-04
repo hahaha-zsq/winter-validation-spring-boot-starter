@@ -11,15 +11,16 @@ public interface DictDataProvider {
     /**
      * 根据字典类型获取对应的值集合
      * @param dictType 字典类型/Code
+     * @param reverse 是否反转字典值和字典类型
      * @return 允许的值集合
      */
-    Collection<String> getDictValues(String dictType);
+    Collection<String> getDictValues(String dictType,boolean reverse);
 
     /**
      * (可选) 是否支持该字典类型
      * 默认实现：只要 getDictValues 返回不为 null 即视为支持
      */
     default boolean supports(String dictType) {
-        return getDictValues(dictType) != null;
+        return getDictValues(dictType, true) != null;
     }
 }

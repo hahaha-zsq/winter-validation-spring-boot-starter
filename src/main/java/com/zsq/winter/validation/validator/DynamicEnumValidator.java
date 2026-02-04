@@ -17,12 +17,14 @@ public class DynamicEnumValidator implements ConstraintValidator<DynamicEnum, Ob
     private DictDataProvider provider;
 
     private String dictType;
+    private boolean reverse;
     private Set<String> fixedValues;
     private boolean allowNull;
 
     @Override
     public void initialize(DynamicEnum constraintAnnotation) {
         this.dictType = constraintAnnotation.dictType();
+        this.reverse = constraintAnnotation.reverse();
         this.fixedValues = new HashSet<>(Arrays.asList(constraintAnnotation.fixedValues()));
         this.allowNull = constraintAnnotation.allowNull();
     }
@@ -67,7 +69,7 @@ public class DynamicEnumValidator implements ConstraintValidator<DynamicEnum, Ob
         Set<String> result = new HashSet<>(fixedValues);
         if (provider != null) {
             try {
-                Collection<String> values = provider.getDictValues(dictType);
+                Collection<String> values = provider.getDictValues(dictType,reverse);
                 if (values != null) {
                     result.addAll(values);
                 }

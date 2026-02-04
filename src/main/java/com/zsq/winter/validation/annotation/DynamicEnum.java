@@ -29,6 +29,13 @@ public @interface DynamicEnum {
     String dictType();
 
     /**
+     * 是否反转枚举值
+     * 默认情况下，枚举值是作为字典的 value 来使用的
+     * 如果设置为 true，则将枚举值作为字典的 key 来使用
+     */
+    boolean reverse() default false; //
+
+    /**
      * 固定的枚举值（作为补充）
      * 最终允许的值 = 动态获取的值 + fixedValues
      */
