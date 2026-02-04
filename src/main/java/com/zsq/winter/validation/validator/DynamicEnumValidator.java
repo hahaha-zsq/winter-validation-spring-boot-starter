@@ -1,10 +1,9 @@
 package com.zsq.winter.validation.validator;
 
-import com.zsq.winter.validation.annotation.DynamicEnum;
 import com.zsq.winter.validation.provider.DictDataProvider;
+import com.zsq.winter.validation.annotation.DynamicEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -12,14 +11,15 @@ import java.util.*;
 
 @Slf4j
 public class DynamicEnumValidator implements ConstraintValidator<DynamicEnum, Object> {
-
-    @Autowired(required = false)
-    private DictDataProvider provider;
-
+    private final DictDataProvider provider;
     private String dictType;
     private boolean reverse;
     private Set<String> fixedValues;
     private boolean allowNull;
+
+    public DynamicEnumValidator(DictDataProvider provider) {
+        this.provider = provider;
+    }
 
     @Override
     public void initialize(DynamicEnum constraintAnnotation) {
@@ -69,7 +69,7 @@ public class DynamicEnumValidator implements ConstraintValidator<DynamicEnum, Ob
         Set<String> result = new HashSet<>(fixedValues);
         if (provider != null) {
             try {
-                Collection<String> values = provider.getDictValues(dictType,reverse);
+                Collection<String> values = provider.getDictValues(dictType, reverse);
                 if (values != null) {
                     result.addAll(values);
                 }

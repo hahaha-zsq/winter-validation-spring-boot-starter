@@ -1,10 +1,14 @@
 package com.zsq.winter.validation.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.zsq.winter.validation.provider.DictDataProvider;
+import com.zsq.winter.validation.validator.DynamicEnumValidator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Properties;
 
 /**
@@ -20,7 +24,20 @@ import java.util.Properties;
  */
 @Configuration
 public class ValidationAutoConfiguration {
-
+    @Bean
+    @ConditionalOnMissingBean(DictDataProvider.class)
+    public DictDataProvider defaultDictDataProvider() {
+        return new DictDataProvider() {
+            @Override
+            public Collection<String> getDictValues(String dictType, boolean reverse) {
+                return Collections.emptyList();
+            }
+        };
+    }
+    @Bean
+    public DynamicEnumValidator dynamicEnumValidator(DictDataProvider dictDataProvider) {
+        return new DynamicEnumValidator(dictDataProvider);
+    }
     /**
      * Bean 1: 全量校验器 (ValidatorAll) —— 默认校验器
      * <p>
@@ -33,7 +50,6 @@ public class ValidationAutoConfiguration {
      * @return 默认的 Spring 校验器工厂 Bean
      */
     @Bean("fastFalseValidator")
-    @Primary  // 【关键】标记为首选 Bean。当代码中直接使用 @Autowired Validator validator 时，Spring 会注入此实例。
     public LocalValidatorFactoryBean fastFalseValidator(@Lazy MessageSource messageSource) {
         LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
 
