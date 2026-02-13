@@ -33,7 +33,8 @@ public @interface DynamicEnum {
      * 默认情况下，枚举值是作为字典的 value 来使用的
      * 如果设置为 true，则将枚举值作为字典的 key 来使用
      */
-    boolean reverse() default false; //
+    boolean reverse() default false;
+
 
     /**
      * 固定的枚举值（作为补充）
@@ -45,4 +46,9 @@ public @interface DynamicEnum {
      * 是否允许为 null
      */
     boolean allowNull() default false;
+
+    /**
+     * 是否允许为空字符串 ("")
+     */
+    boolean allowEmpty() default false;
 }

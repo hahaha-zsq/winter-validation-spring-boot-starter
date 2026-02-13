@@ -16,6 +16,7 @@ public class DynamicEnumValidator implements ConstraintValidator<DynamicEnum, Ob
     private boolean reverse;
     private Set<String> fixedValues;
     private boolean allowNull;
+    private boolean allowEmpty;
 
     public DynamicEnumValidator(DictDataProvider provider) {
         this.provider = provider;
@@ -27,17 +28,25 @@ public class DynamicEnumValidator implements ConstraintValidator<DynamicEnum, Ob
         this.reverse = constraintAnnotation.reverse();
         this.fixedValues = new HashSet<>(Arrays.asList(constraintAnnotation.fixedValues()));
         this.allowNull = constraintAnnotation.allowNull();
+        this.allowEmpty = constraintAnnotation.allowEmpty(); // 初始化新增字段
     }
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
+        // 1. 处理 null 值
         if (value == null) {
             return allowNull;
         }
 
         String inputVal = String.valueOf(value);
-        Set<String> allowedValues = getAllowedValues();
 
+        // 2. 处理空字符串 ("")
+        if (inputVal.isEmpty()) {
+            return allowEmpty;
+        }
+
+        // 3. 校验值是否在允许范围内
+        Set<String> allowedValues = getAllowedValues();
         boolean isValid = allowedValues.contains(inputVal);
 
         if (!isValid) {
@@ -61,7 +70,6 @@ public class DynamicEnumValidator implements ConstraintValidator<DynamicEnum, Ob
                         .addConstraintViolation();
             }
         }
-
         return isValid;
     }
 
