@@ -36,12 +36,6 @@ public class SpelValidator implements ConstraintValidator<SpelValid, Object> {
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        // 1. null 值默认跳过 (符合 JSR-303 规范)
-        // 如果该字段必须有值，请配合 @NotNull 使用
-        if (value == null) {
-            return true;
-        }
-
         try {
             // 2. 创建上下文 (StandardEvaluationContext 非线程安全，必须每次创建局部变量)
             StandardEvaluationContext evalContext = new StandardEvaluationContext();
